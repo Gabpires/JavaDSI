@@ -1,2 +1,2 @@
 # JavaDSI
-Repositório para armazenar as práticas de Java da Matéria Desenvolvimento para Servidores I
+Prova P1 da matéria Desenvolvimento para servidores I
