@@ -13,7 +13,7 @@ public class Conexao {
     public ResultSet resultset = null;
     
     // Atributos de conexão
-    private final String servidor = "jdbc:mysql://127.0.0.1:3306"; // servidor de banco de dados
+    private final String servidor = "jdbc:mysql://127.0.0.1:3306/bd_login"; // servidor de banco de dados
     private final String usuario = "root"; // Usuário do banco de dados
     private final String senha = "Gab859632@"; // senha do banco de dados
     private final String driver = "com.mysql.cj.jdbc.Driver"; // Driver de conexão
