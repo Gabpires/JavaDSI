@@ -1,13 +1,18 @@
 package login;
 
+
+
+
 /*
 Importações de todas as bibliotecas que estou utilizando na classe
 */
 import java.awt.Font; //Trabalhar com fontes
 import java.awt.SystemColor; //Trabalhar com cores
 import javax.swing.JButton; //Trabalhar com botões
+import java.awt.event.ActionEvent; //Trabalhar com eventos
 import javax.swing.JFrame; //Trabalhar com frames
 import javax.swing.JLabel; //Trabalhar com labels
+import javax.swing.JOptionPane; //Trabalahr com mensagens
 import javax.swing.JPanel; //Trabalhar com painéis
 import javax.swing.JPasswordField; //Trabalhar com campos de senha
 import javax.swing.JTextField; //Trabalhar com campos de texto
@@ -21,6 +26,9 @@ public class TelaLogin extends JFrame {
 
     //pswSenha Objeto PasswordField (campo na tela)
     private final JPasswordField pswSenha;
+    
+    //Validar se o usuário é correto
+    private boolean usuarioValido;
 
     //Método construtor
     public TelaLogin() {
@@ -90,11 +98,65 @@ public class TelaLogin extends JFrame {
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBounds(50, 136, 117, 25);
         panelTela.add(btnCadastrar);
+        
+        // botão cancelar
+        btnCadastrar.addActionListener((ActionEvent e) -> {
+            TelaCadastro tCad = new TelaCadastro();
+            tCad.abreTela();
+            dispose();
+        });
+        
+        //Ação no botão de entrar no sistema
+        btnEntrar.addActionListener((ActionEvent e) -> {
+            //Instancio a classe usuario
+            Usuario usu = new Usuario();
+            
+            //Utilizando o setter de usuario e senha
+            usu.setUsuario(txtUsuario.getText());
+            usu.setSenha(pswSenha.getText());
+            
+            if ("".equals(txtUsuario.getText())) {
+                //Mensagem de tela
+                JOptionPane.showMessageDialog(null,
+                        "Campo usuario precisa ser informado!",
+                        "Atenção",
+                        JOptionPane.ERROR_MESSAGE);
+                //Voltar o cursor para o campo txtUsuario
+                txtUsuario.grabFocus();
+            } else {
+                //Verificando se usuario e senha constam no banco de dados  
+                usuarioValido = usu.verificaUsuario(usu.getUsuario(), usu.getSenha());
+                
+                if (usuarioValido == true) {
+                    // Usuario e senha bateram no banco de dados estão corretos
+                    JOptionPane.showMessageDialog(null,
+                            "Usuario na base de dados",
+                            "Atenção",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    //Usuario e senha estão incorretos 
+                    JOptionPane.showMessageDialog(null, 
+                            "Usuario Invalido ou inexistente",
+                            "Atenção",
+                            JOptionPane.ERROR_MESSAGE);
+                    
+                    //Limpa os textos
+                    limpaText();
+                    
+                    //Manda o foco para o campo usuario
+                    txtUsuario.grabFocus();
+                }
+            }
+        });
     }
     public void abreTela() {
         TelaLogin tela = new TelaLogin();
         tela.setVisible(true);
 }
+    public void limpaText() {
+        txtUsuario.setText("");
+        pswSenha.setText("");
+    }
 }
 
  
