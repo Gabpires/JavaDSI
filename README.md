@@ -1,2 +1,2 @@
 # JavaDSI
-Prova P1 da matéria Desenvolvimento para servidores I
+Práticas das atividades desenvolvidas na matéria de Desenvolvimento para servidores I
