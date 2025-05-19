@@ -12,10 +12,11 @@ public class Usuario {
     private boolean resultUsuario;
     private boolean resultCadastro;
      
-    public static String nomeUsuario;
-    public static String usuarioSistema;
+    static String nomeUsuario;
+    static String usuarioSistema;
     
-    
+    private boolean resultAlteracao = true;
+    private boolean resultExclusao = false;
     
     //Getters e setters
 
@@ -59,7 +60,7 @@ public boolean verificaUsuario(String usuario, String senha){
         banco.resultset = 
             banco.stmt.executeQuery("SELECT * FROM usuario "
             + " WHERE usuario = '" + usuario + "'"
-            + " AND senha = '" + senha + "'");
+            + " AND senha = md5('" + senha + "')");
 
         //Verificando se existe retorno de dados no banco
         if (banco.resultset.next()){
@@ -67,8 +68,8 @@ public boolean verificaUsuario(String usuario, String senha){
             resultUsuario = true;
             
             //setters em nome e usuario
-            setNome(banco.resultset.getString(1));
-            setUsuario(banco.resultset.getString(2));
+            setNome(banco.resultset.getString("nome"));
+            setUsuario(banco.resultset.getString("usuario"));
             
             //Realizando atribuições nos atríbutos estáticos
             nomeUsuario = this.getNome();
@@ -118,7 +119,7 @@ public boolean verificaUsuario(String usuario, String senha){
    }
    
    //Cadastro de usuario
-   public boolean cadastraUsuario (String nome, String usuario, String senha) {
+   public boolean cadastraUsuario (String usuario, String nome, String senha) {
        //Conexao
        Conexao banco = new Conexao();
        
@@ -140,5 +141,46 @@ public boolean verificaUsuario(String usuario, String senha){
        
        return resultCadastro;
    }
+   
+   //Método para alterar o resultado
+   public boolean alteraUsuario(String usuario, String nome, String senha) {
+       Conexao banco = new Conexao();
+       
+       try {
+           banco.abrirConexao();
+           
+           banco.stmt = banco.con.createStatement();
+           
+           banco.stmt.execute("UPDATE usuario SET nome = '" + nome + "', senha = md5('" + senha + "') WHERE usuario = '" + usuario + "'");
+           
+       } catch (SQLException ec) {
+           System.out.println("Erro ao atualizar usuario " + ec.getMessage());
+           resultAlteracao = false;
+       }
+       banco.fecharConexao();
+       
+       return resultAlteracao;
+   }
     
+   //Método para exclusão do usuário 
+   public boolean excluiUsuario(String usuario) {
+       Conexao banco = new Conexao();
+       
+       try {
+           banco.abrirConexao();
+           
+           banco.stmt = banco.con.createStatement();
+           
+           banco.stmt.execute("DELETE from usuario WHERE usuario = '" + usuario + "'");
+           
+           //caso exclua
+           resultExclusao = true;
+   } catch (SQLException ec) {
+       System.out.println("Erro ao excluir usuario " + ec.getMessage());
+       resultExclusao = false;
+   }
+       banco.fecharConexao();
+       
+       return resultExclusao;
+    }
 }

@@ -131,8 +131,8 @@ public class TelaCadastro extends JFrame{
                         mensagemJOption = "Usuário já consta na base de dados!";
                         mensagemTipo = 0;
                     } else {
-                        cadastroValido = usu.cadastraUsuario(usu.getNome(),
-                                usu.getUsuario(),
+                        cadastroValido = usu.cadastraUsuario(usu.getUsuario(),
+                                usu.getNome(),
                                 usu.getSenha());
                         
                         if (cadastroValido == true) {

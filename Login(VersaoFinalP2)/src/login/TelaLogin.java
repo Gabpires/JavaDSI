@@ -1,8 +1,5 @@
 package login;
 
-
-
-
 /*
 Importações de todas as bibliotecas que estou utilizando na classe
 */
@@ -99,11 +96,13 @@ public class TelaLogin extends JFrame {
         btnCadastrar.setBounds(50, 136, 117, 25);
         panelTela.add(btnCadastrar);
         
-        // botão cancelar
+        // botão cadastrar
         btnCadastrar.addActionListener((ActionEvent e) -> {
             TelaCadastro tCad = new TelaCadastro();
             tCad.abreTela();
             dispose();
+            
+            
         });
         
         //Ação no botão de entrar no sistema
@@ -133,6 +132,11 @@ public class TelaLogin extends JFrame {
                             "Usuario na base de dados",
                             "Atenção",
                             JOptionPane.INFORMATION_MESSAGE);
+                    
+                    TelaInicio telaInicio = new TelaInicio();
+                    telaInicio.abreTela();
+                    
+                    dispose();
                 } else {
                     //Usuario e senha estão incorretos 
                     JOptionPane.showMessageDialog(null, 
